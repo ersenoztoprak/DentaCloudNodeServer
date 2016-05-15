@@ -9,7 +9,7 @@ var userSchema = new Schema({
     OauthToken: String,
     firstName: {
         type: String,
-        default: false
+        default: ''
     },
     lastName: {
         type: String,

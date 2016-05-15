@@ -5,9 +5,9 @@ var passport = require('passport');
 var Verify    = require('../verify');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res) {
   User.find({}, function (err, user) {
-    if (err) next(err);
+    if (err) throw err;
     res.json(user);
   });
 });
