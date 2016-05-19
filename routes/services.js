@@ -21,14 +21,11 @@ serviceRouter.route('/')
 .post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
 
 	Services.create(req.body, function (err, service) {
-      if (err) res.end(''+err);
-      else {
-        console.log('service created!');
-        var id = service._id;
-
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end('Added the service with id: ' + id);
-      }
+      if (err) return next(err);
+      console.log('service created!');
+      var id = service._id;
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Added the service with id: ' + id);
     });
 });
 
