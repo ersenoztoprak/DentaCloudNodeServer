@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var Appoitments = require('../models/appoitment');
 var Customers = require('../models/customer');
 var Verify    = require('../verify');
+var Utils      = require('../utils');
 
 var appoitmentRouter = express.Router();
 appoitmentRouter.use(bodyParser.json());
@@ -12,6 +13,7 @@ appoitmentRouter.route('/')
 .get(Verify.verifyOrdinaryUser, function(req,res,next){
         
   Appoitments.find()
+  .where('date').gt(Utils.upcomingDatesOfWeek()[0]).lt(Utils.upcomingDatesOfWeek()[1])
   .populate('customer')
   .populate('service')
   .populate('staff')
