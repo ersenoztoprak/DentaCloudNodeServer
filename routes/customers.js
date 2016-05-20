@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var Customers = require('../models/customer');
 var Verify    = require('../verify');
+var Appoitments = require('../models/appoitment');
 
 var customerRouter = express.Router();
 customerRouter.use(bodyParser.json());
@@ -56,6 +57,21 @@ customerRouter.route('/:customerId')
         res.json(resp);
     });
 });
+
+customerRouter.route('/:customerId/appoitment')
+
+.get(Verify.verifyOrdinaryUser, function(req,res,next){
+        
+    Appoitments.find()
+    .where('customer').equals(req.params.customerId)
+    .populate('service')
+    .populate('staff')
+    .exec(function (err, appoitment) {
+      if (err) return next(err);
+      res.json(appoitment);
+    });
+  });    
+  
 
 
 
