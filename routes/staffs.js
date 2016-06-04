@@ -8,7 +8,7 @@ staffRouter.use(bodyParser.json());
 
 staffRouter.route('/')
 
-.get(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req,res,next){
+.get(Verify.verifyOrdinaryUser, function(req,res,next){
         
   Staffs.find(function(err, staff) {
   	if (err) return next(err);
@@ -18,7 +18,7 @@ staffRouter.route('/')
 
 })
 
-.post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+.post(Verify.verifyOrdinaryUser, function(req, res, next) {
 
 	Staffs.create(req.body, function (err, staff) {
       if (err) return next(err);
@@ -33,14 +33,14 @@ staffRouter.route('/')
 // Handle requests to certain ids
 staffRouter.route('/:staffId')
 
-.put(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req,res,next) {
+.put(Verify.verifyOrdinaryUser, function(req,res,next) {
 	Staffs.findByIdAndUpdate(req.params.staffId, {$set: req.body}, {new: true}, function(err, staff) {
           if(err) return next(err);
 
           res.json(staff);
        });
 })
-.delete(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req,res,next) {
+.delete(Verify.verifyOrdinaryUser, function(req,res,next) {
 
 	Staffs.findByIdAndRemove(req.params.staffId, function (err, resp) {
 	    if (err) return next(err);

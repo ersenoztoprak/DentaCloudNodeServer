@@ -8,7 +8,7 @@ serviceRouter.use(bodyParser.json());
 
 serviceRouter.route('/')
 
-.get(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req,res,next){
+.get(Verify.verifyOrdinaryUser, function(req,res,next){
         
   Services.find(function(err, service) {
   	if (err) return next(err);
@@ -18,7 +18,7 @@ serviceRouter.route('/')
 
 })
 
-.post(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+.post(Verify.verifyOrdinaryUser, function(req, res, next) {
 
 	Services.create(req.body, function (err, service) {
       if (err) return next(err);
@@ -32,14 +32,14 @@ serviceRouter.route('/')
 // Handle requests to certain ids
 serviceRouter.route('/:serviceId')
 
-.put(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req,res,next) {
+.put(Verify.verifyOrdinaryUser, function(req,res,next) {
 	Services.findByIdAndUpdate(req.params.serviceId, {$set: req.body}, {new: true}, function(err, service) {
           if(err) return next(err);
 
           res.json(service);
        });
 })
-.delete(Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req,res,next) {
+.delete(Verify.verifyOrdinaryUser, function(req,res,next) {
 
 	Services.findByIdAndRemove(req.params.serviceId, function (err, resp) {
 	    if (err) return next(err);
